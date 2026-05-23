@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core - Cargando</title>
+    <style>
+        /* Estilo de carga minimalista tipo Netflix */
+        body { background-color: #141414; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: Arial, sans-serif; }
+        .spinner { border: 4px solid rgba(255, 255, 255, 0.1); width: 50px; height: 50px; border-radius: 50%; border-left-color: #E50914; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <!-- Círculo de carga rojo que gira mientras decide a dónde mandar al usuario -->
+    <div class="spinner"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Leer la memoria local del teléfono
+        const usuario = JSON.parse(localStorage.getItem("usuario_conectado"));
+        
+        // Esperamos un pequeño respiro de 800ms para que la animación se vea fluida
+        setTimeout(() => {
+            if (usuario) {
+                // ¡Sesión recordada! Filtramos según su rol para ahorrarle pasos
+                if (usuario.rolBase === "administrador") {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "selector.html";
+                }
+            } else {
+                // No hay sesión activa, va directo a loguearse
+                window.location.href = "login.html";
+            }
+        }, 800);
+    });
+</script>
+
+</body>
+</html>
